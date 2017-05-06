@@ -30,10 +30,7 @@ export default class Main extends Component {
     render() {
         const { navigator } = this.props;
         return (
-            <View style={{ flex: 1, backgroundColor: '#006400' }}>
-                <Text>
-                    Main Component
-                </Text>
+            
                 <Drawer
                     ref={(ref) => { this.drawer = ref; }}
                     content={<Menu navigator={navigator} />}
@@ -42,7 +39,6 @@ export default class Main extends Component {
                 >
                     <Shop open={this.openControlPanel.bind(this)} />
                 </Drawer>
-            </View>
         );
     }
 }
