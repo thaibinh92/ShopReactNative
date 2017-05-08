@@ -25,7 +25,7 @@ export default class Menu extends Component {
         const { container,profileImg,btnStyle,btnText,btnSignInStyle, btnTextSignIn,textName, sideBar } = styles;
         const logoutJSX=(
             <View>
-                <TouchableOpacity style={btnStyle} >
+                <TouchableOpacity style={btnStyle} onPress={this.goToAuthentication.bind(this)} >
                     <Text style={btnText}>Sign In</Text>
                 </TouchableOpacity>
             </View>
