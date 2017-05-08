@@ -14,7 +14,7 @@ export default class Collection extends Component {
                         SPRING COLLECTION
                     </Text>
                 </View>
-                <View style={{flex:4}}>
+                <View style={{flex:4,justifyContent:'flex-end'}}>
                     <Image source={bannerImage} style={imageStyle}/>
                 </View>
             </View>

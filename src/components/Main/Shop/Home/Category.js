@@ -19,7 +19,7 @@ export default class Category extends Component {
                         LIST OF CATEGORY
                     </Text>
                 </View>
-                <View style={{flex:4}}>
+                <View style={{flex:4,justifyContent:'flex-end'}}>
                     <Swiper width={imageWidth} height={imageHeight}>
                         <Image source={littleImage} style={imageStyle}>
                             <Text style={cateTitle}>Little Dress</Text>
