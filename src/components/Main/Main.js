@@ -23,6 +23,7 @@ export default class Main extends Component {
     closeControlPanel = () => {
         this.drawer.close();
     };
+
     openControlPanel = () => {
         this.drawer.open();
     };

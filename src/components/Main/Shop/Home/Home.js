@@ -8,6 +8,8 @@ export default class Home extends Component {
     render() {
         return (
             <ScrollView style={{ flex: 1, backgroundColor: '#CFCFCF' }}>
+                <Collection/>
+                <Category/>
                 <TopProduct/>
             </ScrollView>
         );
