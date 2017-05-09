@@ -20,7 +20,7 @@ export default class Header extends Component {
                     </Text>
                     <Image source={icLogo} style={iconStyle} />
                 </View>
-                <TextInput style={textInput} placeholder='What do you want to buy?' />
+                <TextInput style={textInput} placeholder='What do you want to buy?' underlineColorAndroid='transparent' />
             </View>
         );
     }
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         height: height/18,
         backgroundColor:'#fff',
         paddingLeft:10,
+        paddingVertical:0
     },
     iconStyle:{
         width:20,
