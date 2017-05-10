@@ -7,6 +7,8 @@ import Contact from './Contact/Contact';
 import Search from './Search/Search';
 import Cart from './Cart/Cart';
 import Header from './Header';
+import global from '../../Global';
+
 import icHomes from '../../../media/appIcon/home.png';
 import icHome from '../../../media/appIcon/home0.png';
 import icCarts from '../../../media/appIcon/cart.png';
@@ -21,8 +23,26 @@ export default class Shop extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'home'
+            selectedTab: 'home',
+            types: [],
+            topProducts: [],
+            cartArray: []
         };
+        global.addProductToCart = this.addProductToCart.bind(this);
+    }
+    componentDidMount(){
+        fetch('http://192.168.1.9/api/')
+            .then(res=>res.json())
+            .then((resJSON) => {
+                const { type,product }= resJSON;
+                this.setState({
+                    types:type,
+                    topProducts:product
+                });
+            })
+    }
+    addProductToCart(product){
+        this.setState({ cartArray:this.state.cartArray.concat(product) })
     }
     openMenu() {
         const { open } = this.props;
@@ -43,7 +63,7 @@ export default class Shop extends Component {
                         renderSelectedIcon={() => <Image source={icHomes} style={styles.iconStyle} />}
                         selectedTitleStyle={{ color: '#2AA188'}}
                     >
-                        <Home />
+                        <Home types={this.state.types} topProducts={this.state.topProducts} />
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'search'}
@@ -62,9 +82,9 @@ export default class Shop extends Component {
                         renderIcon={() => <Image source={icCart} style={styles.iconStyle} />}
                         renderSelectedIcon={() => <Image source={icCarts} style={styles.iconStyle} />}
                         selectedTitleStyle={{ color: '#2AA188'}}
-                        badgeText="1"
+                        badgeText={this.state.cartArray.length}
                     >
-                        <Cart />
+                        <Cart cartArray={this.state.cartArray} />
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'contact'}
