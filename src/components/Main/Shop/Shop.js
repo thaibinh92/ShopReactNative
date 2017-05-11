@@ -7,6 +7,9 @@ import Contact from './Contact/Contact';
 import Search from './Search/Search';
 import Cart from './Cart/Cart';
 import Header from './Header';
+import initData from '../../../api/initData';
+import saveCart from '../../../api/saveCart';
+import getCart from '../../../api/getCart';
 import global from '../../Global';
 
 import icHomes from '../../../media/appIcon/home.png';
@@ -29,20 +32,47 @@ export default class Shop extends Component {
             cartArray: []
         };
         global.addProductToCart = this.addProductToCart.bind(this);
+        global.incrQuantity = this.incrQuantity.bind(this);
+        global.decrQuantity = this.decrQuantity.bind(this);
+        global.removeProduct = this.removeProduct.bind(this);
     }
     componentDidMount(){
-        fetch('http://192.168.1.9/api/')
-            .then(res=>res.json())
-            .then((resJSON) => {
-                const { type,product }= resJSON;
-                this.setState({
-                    types:type,
-                    topProducts:product
-                });
-            })
+        initData()
+        .then((resJSON) => {
+            const { type,product }= resJSON;
+            this.setState({
+                types:type,
+                topProducts:product
+            });
+        });
+        getCart()
+            .then(cartArray => this.setState({ cartArray}));
     }
     addProductToCart(product){
-        this.setState({ cartArray:this.state.cartArray.concat(product) })
+        this.setState({ cartArray:this.state.cartArray.concat({product,quantity:1}) },
+            ()=>saveCart(this.state.cartArray)
+        );
+
+    }
+    incrQuantity(productId){
+        const newCart = this.state.cartArray.map(e=>{
+            if(e.product.id !== productId) return e;
+            return {product:e.product,quantity:e.quantity+1};
+        });
+        this.setState({cartArray:newCart});
+
+    }
+    decrQuantity(productId){
+        const newCart = this.state.cartArray.map(e=>{
+            if(e.product.id !== productId) return e;
+            return {product:e.product,quantity:e.quantity-1};
+        });
+        this.setState({cartArray:newCart});
+    }
+
+    removeProduct(productId){
+        const newCart = this.state.cartArray.filter(e=> e.product.id !== productId);
+        this.setState({cartArray:newCart});
     }
     openMenu() {
         const { open } = this.props;

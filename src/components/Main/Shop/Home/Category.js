@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
+import global from '../../../Global';
 
 import littleImage from '../../../../media/temp/little.jpg';
 import maxiImage from '../../../../media/temp/maxi.jpg';
 import partyImage from '../../../../media/temp/party.jpg';
 import midiImage from '../../../../media/temp/midi.jpg';
 
+const URL = global.URL+'images/type/'
 const {width, height } = Dimensions.get('window');
 
 export default class Category extends Component {
@@ -28,7 +30,7 @@ export default class Category extends Component {
                     <Swiper width={imageWidth} height={imageHeight}>
                         { types.map(e => (
                             <TouchableOpacity onPress={this.goToListProduct.bind(this)} key={e.id} >
-                                <Image source={{ uri:`http://192.168.1.9/api/images/type/${e.image}` }} style={imageStyle}>
+                                <Image source={{ uri:`${URL}${e.image}` }} style={imageStyle}>
                                     <Text style={cateTitle}>{e.name} </Text>
                                 </Image>
                             </TouchableOpacity>

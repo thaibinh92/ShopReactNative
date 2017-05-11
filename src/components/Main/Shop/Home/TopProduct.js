@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity,ListView } from 'react-native';
+import global from '../../../Global';
 
 const {width} = Dimensions.get('window');
 const productWidth = (width-40)/2;
 const productImageHeight = (productWidth/361) *452;
+const URL = global.URL+'images/product/';
+
+
 export default class TopProduct extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            dataSource : new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2})
-        };
-    }
     goToProductDetail(product){
         const {navigator} = this.props;
         navigator.push({name:'PRODUCT_DETAIL',product});
@@ -25,15 +23,26 @@ export default class TopProduct extends Component {
                         Top Product
                     </Text>
                 </View>
-                <View style={body}>
-                    { topProducts.map(e => (
-                        <TouchableOpacity style={productContainer} onPress={()=>this.goToProductDetail(e)} key={e.id}>
-                            <Image source={{ uri:`http://192.168.1.9/api/images/product/${e.images[0]}` }} style={productImage}/>
-                            <Text style={productName}>{ e.name.toUpperCase() }</Text>
-                            <Text style={productPrice} >{e.price}$</Text>
+                <ListView
+                    contentContainerStyle={body}
+                    enableEmptySections
+                    dataSource={ new ListView.DataSource({ rowHasChanged:(r1,r2)=>r1!==r2 }).cloneWithRows(topProducts) }
+                    renderRow={(value)=>(
+                        <TouchableOpacity style={productContainer} onPress={()=>this.goToProductDetail(value)} key={value.id}>
+                            <Image source={{ uri:`${URL}${value.images[0]}` }} style={productImage}/>
+                            <Text style={productName}>{ value.name.toUpperCase() }</Text>
+                            <Text style={productPrice} >{value.price}$</Text>
                         </TouchableOpacity>
-                    )) }
-                </View>
+                    )}
+                    renderSeparator={(sectionID,rowID)=>{
+                        if(rowID%2 === 1){
+                            return (
+                                <View style={{width,height:10}}></View>
+                            )
+                        }
+                    }}
+
+                />
             </View>
         );
     }

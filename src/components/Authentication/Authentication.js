@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { View,TextInput,Text, TouchableOpacity,StyleSheet,Image } from 'react-native';
 import imgLogo from '../../media/appIcon/ic_logo.png';
 import imgBack from '../../media/appIcon/back_white.png';
+import register from '../Authentication/Authentication';
+
+import SignIn from  '../Authentication/SignIn';
+import SignUp from  '../Authentication/SignUp';
+
 export default class Authentication extends Component {
     constructor(props){
         super(props);
@@ -9,6 +14,11 @@ export default class Authentication extends Component {
             isSignIn:true
         };
     }
+
+    gotoSignIn(){
+        this.setState({isSignIn:true})
+    }
+
     goBackToMain() {
         const { navigator } = this.props;
         navigator.pop();
@@ -24,32 +34,9 @@ export default class Authentication extends Component {
         })
     }
     render() {
-        const {header,inputStyle,bigButton,btnText, iconStyle, titleStyle,container, viewControl,viewInput,viewTextSignIn,viewTextSignUp,activeStyle,inactiveStyle} = styles;
-        const signInJSX=(
-            <View>
-                <TextInput style={inputStyle} placeholder="Enter your email" />
-                <TextInput style={inputStyle} placeholder="Enter your password" />
-                <TouchableOpacity style={bigButton}>
-                    <Text style={btnText}>
-                        SIGN IN NOW
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        );
-        const signUpJSX=(
-            <View>
-                <TextInput style={inputStyle} placeholder="Enter your name" />
-                <TextInput style={inputStyle} placeholder="Enter your email" />
-                <TextInput style={inputStyle} placeholder="Enter your password" />
-                <TextInput style={inputStyle} placeholder="Re-enter your password" />
-                <TouchableOpacity style={bigButton}>
-                    <Text style={btnText}>
-                        SIGN UP NOW
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        );
-        const mainJSX=this.state.isSignIn?signInJSX:signUpJSX;
+        const {header, iconStyle, titleStyle,container, viewControl,viewTextSignIn,viewTextSignUp,activeStyle,inactiveStyle} = styles;
+
+        const mainJSX=this.state.isSignIn?<SignIn goBackToMain={this.goBackToMain.bind(this)} />:<SignUp gotoSignIn={this.gotoSignIn.bind(this)} />;
         return (
             <View style={container}>
                 <View style={header}>
@@ -133,25 +120,6 @@ const styles = StyleSheet.create({
     inactiveStyle:{
         color:'#bebebe',
         fontSize:18
-    },
-    inputStyle:{
-        height:50,
-        backgroundColor:'#fff',
-        marginBottom:10,
-        borderRadius:25,
-        paddingLeft:20
-    },
-    bigButton:{
-        height:50,
-        borderRadius:25,
-        borderColor:'#fff',
-        borderWidth:1,
-        alignItems:'center',
-        justifyContent:'center'
-    },
-    btnText:{
-        color:'#fff',
-        fontSize:15
     }
 
 });

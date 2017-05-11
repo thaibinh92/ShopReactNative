@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity,StyleSheet, Image} from 'react-native';
 import imageProfile from '../../media/temp/profile.png';
+import global from '../Global';
 
 export default class Menu extends Component {
     constructor(props){
         super(props);
         this.state={
-            isLogedIn: true
+            user: null,
         };
+        global.onSignIn = this.onSignIn.bind(this);
+    }
+    onSignIn(user){
+        this.setState({ user });
     }
     goToAuthentication() {
         const { navigator } = this.props;
@@ -33,7 +38,7 @@ export default class Menu extends Component {
         const loginJSX=(
             <View style={sideBar}>
                 <Text style={textName}>
-                    Nguyen Dinh Thai Binh
+                    {this.state.user?this.state.user.name:''}
                 </Text>
                 <View>
                     <View>
@@ -55,7 +60,7 @@ export default class Menu extends Component {
                 <View></View>
             </View>
         );
-        const mainJSX = this.state.isLogedIn? loginJSX:logoutJSX;
+        const mainJSX = this.state.user? loginJSX:logoutJSX;
         return (
             <View style={container}>
                 <Image source={imageProfile} style={profileImg}/>

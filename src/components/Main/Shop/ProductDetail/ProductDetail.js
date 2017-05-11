@@ -10,7 +10,7 @@ import img2 from '../../../../media/temp/sp4.jpeg';
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 
-const url = 'http://192.168.1.9/api/images/product/'
+const url = global.URL+'images/product/';
 
 export default class ProductDetail extends Component {
     goBack() {
