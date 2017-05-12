@@ -12,13 +12,24 @@ const URL = global.URL+'images/type/'
 const {width, height } = Dimensions.get('window');
 
 export default class Category extends Component {
-    goToListProduct(){
+    goToListProduct(category){
         const {navigator} = this.props;
-        navigator.push({name:"LIST_PRODUCT"})
+        navigator.push({name:"LIST_PRODUCT",category})
     }
     render() {
         const {wrapper, textStyle, imageStyle,cateTitle}  = styles;
         const {types}=this.props;
+        const  swip  = (
+            <Swiper width={imageWidth} height={imageHeight}>
+                { types.map(e => (
+                    <TouchableOpacity onPress={()=>this.goToListProduct(e)} key={e.id} >
+                        <Image source={{ uri:`${URL}${e.image}` }} style={imageStyle}>
+                            <Text style={cateTitle}>{e.name} </Text>
+                        </Image>
+                    </TouchableOpacity>
+                )) }
+            </Swiper>
+        );
         return (
             <View style={wrapper}>
                 <View style={{flex:1, justifyContent:'center'}}>
@@ -27,15 +38,7 @@ export default class Category extends Component {
                     </Text>
                 </View>
                 <View style={{flex:4,justifyContent:'flex-end'}}>
-                    <Swiper width={imageWidth} height={imageHeight}>
-                        { types.map(e => (
-                            <TouchableOpacity onPress={this.goToListProduct.bind(this)} key={e.id} >
-                                <Image source={{ uri:`${URL}${e.image}` }} style={imageStyle}>
-                                    <Text style={cateTitle}>{e.name} </Text>
-                                </Image>
-                            </TouchableOpacity>
-                        )) }
-                    </Swiper>
+                    { types.length ? swip : null }
                 </View>
             </View>
         );
