@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, Dimensions, Image, TextInput, StyleSheet } from 'react-native';
+import global from '../../Global';
+import search from '../../../api/searchProduct';
 
 import icLogo from '../../../media/appIcon/ic_logo.png';
 import icMenu from '../../../media/appIcon/ic_menu.png';
@@ -7,6 +9,19 @@ import icMenu from '../../../media/appIcon/ic_menu.png';
 const {height} = Dimensions.get('window');
 
 export default class Header extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            txtSearch:''
+        }
+    }
+    onSearch(){
+        const {txtSearch} = this.state;
+        this.setState({txtSearch:''});
+        search(txtSearch)
+            .then(arrProduct=>global.setArraySearch(arrProduct))
+            .catch(err=>console.log(err));
+    }
     render() {
         const {wrapper, row1, textInput, iconStyle, titleStyle} = styles;
         return (
@@ -20,7 +35,14 @@ export default class Header extends Component {
                     </Text>
                     <Image source={icLogo} style={iconStyle} />
                 </View>
-                <TextInput style={textInput} placeholder='What do you want to buy?' underlineColorAndroid='transparent' />
+                <TextInput style={textInput}
+                           placeholder='What do you want to buy?'
+                           underlineColorAndroid='transparent'
+                           value={this.state.txtSearch}
+                           onChangeText={text=>this.setState({txtSearch:text})}
+                           onSubmitEditing={this.onSearch.bind(this)}
+                           onFocus={global.goToSearch}
+                />
             </View>
         );
     }

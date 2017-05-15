@@ -35,6 +35,7 @@ export default class Shop extends Component {
         global.incrQuantity = this.incrQuantity.bind(this);
         global.decrQuantity = this.decrQuantity.bind(this);
         global.removeProduct = this.removeProduct.bind(this);
+        global.goToSearch = this.goToSearch.bind(this);
     }
     componentDidMount(){
         initData()
@@ -77,6 +78,9 @@ export default class Shop extends Component {
     openMenu() {
         const { open } = this.props;
         open();
+    }
+    goToSearch(){
+        this.setState({selectedTab:'search'});
     }
     render() {
         return (

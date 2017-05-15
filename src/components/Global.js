@@ -4,5 +4,7 @@ module.exports={
     decrQuantity:null,
     removeProduct:null,
     URL:'http://192.168.1.9/api/',
-    onSignIn:null
+    onSignIn:null,
+    goToSearch:null,
+    setArraySearch:null
 }

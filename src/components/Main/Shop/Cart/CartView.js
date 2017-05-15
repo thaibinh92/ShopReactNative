@@ -6,7 +6,7 @@ import {
 
 import global from '../../../Global';
 
-const url = 'http://170.20.10.3/api/images/product/';
+const url = global.URL+'images/product/';
 
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
