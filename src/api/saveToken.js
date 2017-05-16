@@ -1,6 +1,10 @@
 import {AsyncStorage } from 'react-native';
 const saveToken = async (token)=>{
-    await AsyncStorage.setItem(('@token',token));
+    try {
+        await AsyncStorage.setItem('@token:key', token);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export default saveToken;

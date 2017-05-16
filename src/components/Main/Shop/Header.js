@@ -35,13 +35,14 @@ export default class Header extends Component {
                     </Text>
                     <Image source={icLogo} style={iconStyle} />
                 </View>
-                <TextInput style={textInput}
-                           placeholder='What do you want to buy?'
-                           underlineColorAndroid='transparent'
-                           value={this.state.txtSearch}
-                           onChangeText={text=>this.setState({txtSearch:text})}
-                           onSubmitEditing={this.onSearch.bind(this)}
-                           onFocus={global.goToSearch}
+                <TextInput
+                    style={textInput}
+                    placeholder='What do you want to buy?'
+                    underlineColorAndroid='transparent'
+                    value={this.state.txtSearch}
+                    onChangeText={text=>this.setState({txtSearch:text})}
+                    onSubmitEditing={this.onSearch.bind(this)}
+                    onFocus={global.goToSearch}
                 />
             </View>
         );
