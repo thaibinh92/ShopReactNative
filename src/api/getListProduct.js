@@ -1,6 +1,12 @@
 import global from '../components/Global';
 const getListProduct = (idType, page) =>{
-    return fetch(global.URL+`product_by_type.php?id_type=${idType}&page=${page}`)
+    let url;
+    if(idType=== 'COLECTION'){
+        url = global.URL+`get_collection.php?page=${page}`;
+    }else{
+        url = global.URL+`product_by_type.php?id_type=${idType}&page=${page}`;
+    }
+    return fetch(url)
         .then(res=>res.json())
 };
 

@@ -5,6 +5,8 @@ import {
 } from 'react-native';
 
 import global from '../../../Global';
+import sendOrder from '../../../../api/sendOrder';
+import getToken from '../../../../api/getToken';
 
 const url = global.URL+'images/product/';
 
@@ -13,9 +15,9 @@ function toTitleCase(str) {
 }
 
 class CartView extends Component {
-    gotoDetail() {
+    gotoDetail(product) {
         const { navigator } = this.props;
-        navigator.push({ name: 'PRODUCT_DETAIL' });
+        navigator.push({ name: 'PRODUCT_DETAIL',product });
     }
     incrQuantity(id){
         global.incrQuantity(id);
@@ -25,6 +27,25 @@ class CartView extends Component {
     }
     removeProduct(id){
         global.removeProduct(id);
+    }
+
+    async onSendOrder(){
+        try{
+            const token = await getToken();
+            const arrayDetail = this.props.cartArray.map(e=>({
+                id:e.product.id,
+                quantity:e.quantity
+            }));
+            const result = await sendOrder(token,arrayDetail);
+            if(result==='THEM_THANH_CONG'){
+                console.log('them thanh cong')
+            }else{
+                console.log('them that bai');
+            }
+        }
+        catch (e){
+            console.log(e);
+        }
     }
     render() {
         const { main, checkoutButton, checkoutTitle, wrapper,
@@ -63,7 +84,7 @@ class CartView extends Component {
                                             <Text>+</Text>
                                         </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity style={showDetailContainer}>
+                                    <TouchableOpacity onPress={()=>this.gotoDetail(item.product)} style={showDetailContainer}>
                                         <Text style={txtShowDetail}>SHOW DETAILS</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -71,7 +92,7 @@ class CartView extends Component {
                         </View>
                     )}
                 />
-                <TouchableOpacity style={checkoutButton}>
+                <TouchableOpacity style={checkoutButton} onPress={this.onSendOrder.bind(this)}>
                     <Text style={checkoutTitle}>TOTAL {total}$ CHECKOUT NOW</Text>
                 </TouchableOpacity>
             </View>

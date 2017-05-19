@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity } from 'react-native';
 import bannerImage from '../../../../media/temp/banner.jpg';
 
 const {width, height } = Dimensions.get('window');
 
 export default class Collection extends Component {
+    goToListProduct(){
+        const {navigator} =this.props;
+        navigator.push({name:'LIST_PRODUCT',category:{name:'SPRING COLLECTION',id:'COLECTION'}})
+    }
     render() {
         const {wrapper, textStyle, imageStyle}  = styles;
         return (
@@ -14,9 +18,9 @@ export default class Collection extends Component {
                         SPRING COLLECTION
                     </Text>
                 </View>
-                <View style={{flex:4,justifyContent:'flex-end'}}>
+                <TouchableOpacity style={{flex:4,justifyContent:'flex-end'}} onPress={this.goToListProduct.bind(this)} >
                     <Image source={bannerImage} style={imageStyle}/>
-                </View>
+                </TouchableOpacity>
             </View>
         );
     }
